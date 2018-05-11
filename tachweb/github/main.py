@@ -207,7 +207,7 @@ def daemon(root_path):
             for item in sorted(events, key=operator.itemgetter(0)):
                 events_ordered.append(item)
             events_ordered = list(reversed(events_ordered))
-            save(events_ordered, root_path + '/events.pickle')
+            save(events_ordered[0:10], root_path + '/events.pickle')
 
             save(projects, root_path + '/projects.pickle')
             log.info('Infinite loop sleeping 5 Minutes')
