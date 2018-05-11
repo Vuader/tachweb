@@ -1,0 +1,21 @@
+{% extends "tachweb/base.html" %} 
+{% block extra %}
+    <div class="row">
+        <div class="col">
+            <form class="form-inline" method="post" action="/sphinx/{{project}}">
+                <div class="input-group mr-2">
+                    <small id="emailHelp" class="form-text">Version</small>
+                </div>
+                <div class="input-group mr-2">
+                    {{ refs }}
+                </div>
+            </form>
+        </div>
+        <div class="col text-right">
+            <small id="emailHelp" class="form-text"><A HREF="{{ git }}" class='text-white' target="_blank">GitHub Source</A></small>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+{{ doc }}
+{% endblock %}

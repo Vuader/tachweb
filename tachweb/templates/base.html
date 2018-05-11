@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117769356-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-117769356-1');
+	</script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="Tachyonic Project | OSS/BSS Framework" />
+    <meta name="keywords" content="tachweb wsgi restapi api web python oss bss framework">
+    <link rel="stylesheet" href="{{STATIC}}/tachweb/bootstrap/css/bootstrap.css" />
+    <meta name="google-site-verification" content="OHP6dW4tIwGPBpVEJQjDEatKo5YVFpHN1l7zP5a-9oU" />
+    <script src="{{STATIC}}/tachweb/jquery-3.1.1.js"></script>
+    <script src="{{STATIC}}/tachweb/bootstrap/js/bootstrap.js"></script>
+    <link rel="icon" href="{{STATIC}}/tachweb/tachyon-sm.png">
+    <link rel="stylesheet" href="{{STATIC}}/tachweb/tachweb.css" />
+    <link rel="stylesheet" href="{{STATIC}}/tachweb/doc.css" />
+    <link rel="stylesheet" href="{{STATIC}}/tachweb/pygments.css" />
+    <title>Tachyonic Project{% if title %} - {{ title }} {% endif %}</title>
+</head>
+<body>
+    {% if REQ.credentials.authenticated %}
+    <div class="login">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ REQ.credentials.user_id }}
+                </div>
+                <div class="col-sm-6 text-right">
+                    <A HREF="{{app}}/logout">Logout</A>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="bg-dark">
+        <div class="container">
+            {{ G.nav_menu.render(name='Tachyonic', logo=REQ.static + '/tachweb/tachyon-sm.png', css='navbar-expand-lg navbar-dark bg-dark', url=REQ.app + '/') }}
+        </div>
+    </div>
+    <div class="hinting">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6 text-right">
+                    Powered by Tachyonic Project {{ G.luxon_version }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="heading">
+        <div class="container">
+            {% if title %}
+                <H1 class="heading">{{ title }}</H1>
+            {% else %}
+                <H1 class="heading">Tachyonic Project</H1>
+            {% endif %}
+        </div>
+    </div>
+    <div class="extra">
+        <div class="container">
+            {% block extra %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="container">
+            <div class="row">
+                {% if no_news %}
+                <div class="col-lg-12">
+                {% else %}
+                <div class="col-lg-9">
+                {% endif %}
+                {% block content %}{% endblock %}
+                </div>
+                {% if not no_news %}
+                <div class="col-lg-3">
+                    <H2>Repo Events</H2>
+                    <div class="limit_news">
+                        {% for item in REQ.context.news[:12] %}
+                        <div class="box">
+                            <B><I>{{ format_datetime(item[0]) }}</I></B><BR>
+                            <B>{{ item[1] }}</B><BR>
+                            {{ item[2] }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <span class="float-right"><a href="#">Back to top</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="push_footer">
+    </div>
+    <footer>
+        <div class="container">
+            {% for route in G.nav_menu._items %}
+                {% if route[1] is none %}
+            <span class="sitemap">
+                <A HREF="{{REQ.app_uri}}{{route[2]}}">{{ route[0].split('/')[-1] }}</A>
+            </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <span class="white">&copy; 2016 - {{ datetime().year }} Myria Solutions (PTY) Ltd</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

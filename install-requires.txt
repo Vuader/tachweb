@@ -1,0 +1,4 @@
+sphinx
+tachyonic-sphinx
+python-pam
+luxon

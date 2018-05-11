@@ -1,0 +1,4 @@
+{
+    "role:root": "'root' in req.credentials.roles",
+    "newsletter_admin": "$role:root"
+}

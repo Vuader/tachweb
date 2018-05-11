@@ -1,0 +1,65 @@
+{% extends "tachweb/base.html" %} 
+{% set column_colors = [ '#d5f5e3', ' #fcf3cf', '#d6eaf8', '#e8daef', '#fadbd8', '#e5e8e8', ] %}
+
+{% block extra %}
+    <form method='GET' class="form-inline">
+        <select name='project' class="custom-control form-control-sm custom-select">
+            <option value=""></option>
+            {% for a_project in projects %}
+            <option value="{{ a_project }}" {% if project == a_project %} selected {% endif %}>{{ a_project }}</option>
+            {% endfor %}
+        </select>
+        <select name='assignee' class="custom-control form-control-sm custom-select">
+            <option value=""></option>
+            {% for a_assignee in assignees %}
+            <option value="{{ a_assignee }}" {% if assignee == a_assignee %} selected {% endif %}>{{ a_assignee }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Filter" class="btn btn-primary btn-sm">
+    </form>
+{% endblock %}
+{% block content %}
+        {% for project in view_projects %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <H1>Project: {{ project['name'] }}</H1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <blockquote>{{ project['description'] }}</blockquote>
+                    </div>
+                </div>
+            </div>
+            <div class="scrum">
+                <div class="container-fluid">
+                    <div class="row">
+                        {% for column in project['columns'] %}
+                        <div class="col-sm-3" style="background-color:{{ column_colors[loop.index0] }}; padding-left: 2px; padding-right: 2px;">
+                        <H4>{{ column['name'] }}</H4>
+                            {% for card in column['cards'] %}
+                            <div class='box'>
+                                {% if card['html_url'] %}
+                                <A HREF="{{ card['html_url'] }}" target="issue">
+                                {% endif %}
+                                <B>{{ card['title'] }}</B><BR>
+                                {% if card['html_url'] %}
+                                </A>
+                                {% endif %}
+                                {% if card['title'] == 'Note' %}
+                                {{ card['body'].replace('\n','<BR>') }}<BR>
+                                {% endif %}
+                                {% if card['assignees']|length > 0 %} <B>Assignees:</B>
+                                <I>{{ ", ".join(card['assignees']) }}</I><BR>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <BR>
+        {% endfor %}
+{% endblock %}
