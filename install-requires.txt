@@ -1,4 +1,5 @@
 sphinx
 tachyonic-sphinx
 python-pam
+virtualenv
 luxon

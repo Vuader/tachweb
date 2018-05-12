@@ -12,7 +12,6 @@ function run {
 if [ -f $virtualenv/bin/activate ]; then
     run source $virtualenv/bin/activate
     run pip3 install sphinx
-    #run pip3 install -r $src_path/requirements.txt
     run pip3 install -e $src_path
 
     run rm -rf $doc_dir
