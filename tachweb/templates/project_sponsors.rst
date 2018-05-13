@@ -17,7 +17,7 @@ Wingu is an African Cloud Computing company that provides Infrastructure as a Se
 
 The Wingu team is actively developing on and testing the Tachyonic Project and supporting other open-source projects such as OpenStack.
 
-.. image:: /static/tachweb/wingu.png
+.. image:: {{STATIC}}/tachweb/wingu.png
 
 http://www.wingu.co.za
 
