@@ -4,15 +4,19 @@
         <div class="col">
             <form class="form-inline" method="post" action="/sphinx/{{project}}">
                 <div class="input-group mr-2">
-                    <small id="emailHelp" class="form-text">Version</small>
+                    <small class="form-text">Version</small>
                 </div>
                 <div class="input-group mr-2">
                     {{ refs }}
                 </div>
+                <div class="input-group mr-2">
+                    <A HREF="{{ home }}" class='btn btn-success'>Click for Overview</A>
+                </div>
+
             </form>
         </div>
         <div class="col text-right">
-            <small id="emailHelp" class="form-text"><A HREF="{{ git }}" class='text-white' target="_blank">GitHub Source</A></small>
+            <A HREF="{{ git }}" class='btn btn-danger' target="_blank">GitHub Source</A>
         </div>
     </div>
 {% endblock %}
