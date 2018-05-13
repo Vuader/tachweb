@@ -160,7 +160,7 @@ def daemon(root_path):
                     doc_dir = "%s/docs/%s_%s" % (root_path, name, ref,)
                     src_path = venv_dir + '/' + name
                     log.info("Creating Virtual Environment '%s'" % venv_dir)
-                    create_env(str(venv_dir), wipe=True, site_packages=True)
+                    create_env(str(venv_dir), wipe=True, site_packages=False)
 
                     clone(projects[name]['clone_url'], src_path)
 
