@@ -66,7 +66,7 @@ def format_body_only(html):
                    'regex:^/sphinx.*$', cache=14400)
 def sphinx(req, resp):
     app_root = g.app_root
-    full_path = req.relative_resource_uri.strip('/').split('/')[1:]
+    full_path = req.route.strip('/').split('/')[1:]
 
     if len(full_path) > 0 and full_path[0] in req.context.projects:
         resp.content_type = TEXT_HTML
@@ -79,13 +79,14 @@ def sphinx(req, resp):
         refs = project['refs']
         description = project['description']
 
+
         if len(refs) == 0:
             raise HTTPNotFound("Project documentation not found")
 
         if len(full_path) > 1:
             ref = full_path[1]
         else:
-            return resp.redirect('/sphinx/%s/%s' % (name, refs[0],))
+            return resp.redirect('/sphinx/%s/%s/index.html' % (name, refs[0],))
 
         doc_path = full_path[2:]
 
@@ -112,12 +113,13 @@ def sphinx(req, resp):
                 sfile = format_body_only(sfile)
                 git = "https://github.com/TachyonicProject/%s/tree/%s" % (name,
                                                                           ref,)
+                home = '%s/sphinx/%s/%s/index.html' % (req.app, name, ref,)
                 description = "%s (%s)" % (description, name,)
                 return render_template('tachweb/sphinx.html', refs=refs,
                                        doc=sfile, no_news=True,
                                        project=name, title=description,
                                        description=description,
-                                       git=git)
+                                       git=git, home=home)
             else:
                 return sfile
         else:
