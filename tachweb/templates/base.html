@@ -35,7 +35,7 @@
                     {{ REQ.credentials.user_id }}
                 </div>
                 <div class="col-sm-6 text-right">
-                    <A HREF="{{app}}/logout">Logout</A>
+                    <A HREF="{{APP}}/logout">Logout</A>
                 </div>
             </div>
         </div>
@@ -84,6 +84,16 @@
                 </div>
                 {% if not no_news %}
                 <div class="col-lg-3">
+                    {% if not REQ.credentials.authenticated %}
+                    <H2>GITHUB Team</H2>
+                    <form action="{{APP}}/login" method='post' class="form-signin">
+						<label for="inputUsername" class="sr-only">Email address</label>
+						<input name='username' type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+						<label for="inputPassword" class="sr-only">Password</label>
+						<input name='password'  type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    </form><BR>
+                    {% endif %}
                     <H2>Repo Events</H2>
                     <div class="limit_news">
                         {% for item in REQ.context.news[:12] %}
