@@ -1,4 +1,6 @@
 {
-    "role:root": "'root' in req.credentials.roles",
-    "newsletter_admin": "$role:root"
+    "role:author": "'Author' in req.credentials.roles",
+    "role:ptl": "'PTLs' in req.credentials.roles",
+    "role:dev": "'Developers' in req.credentials.roles",
+    "newsletter_admin": "$role:author"
 }
