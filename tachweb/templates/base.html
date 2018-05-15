@@ -96,7 +96,7 @@
                     {% endif %}
                     <H2>Repo Events</H2>
                     <div class="limit_news">
-                        {% for item in REQ.context.get(news, [])[:12] %}
+                        {% for item in REQ.context.get('news', [])[:12] %}
                         <div class="box">
                             <B><I>{{ format_datetime(item[0]) }}</I></B><BR>
                             <B>{{ item[1] }}</B><BR>
