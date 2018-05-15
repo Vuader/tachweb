@@ -97,13 +97,12 @@ def daemon(root_path):
     username = g.config.get('github', 'username')
     password = g.config.get('github', 'password')
 
-    tachyonic = GitHub('https://api.github.com',
-                       auth=(username, password))
+    tachyonic = GitHub(auth=(username, password))
 
     while True:
         try:
             save(tachyonic.projects('TachyonicProject'),
-                 root_path + '/planning.pickle')
+                 root_path + '/planning.pickle', perms=664)
             found = []
             log.info("Getting Repos")
             repos = tachyonic.repos('TachyonicProject')
@@ -114,27 +113,27 @@ def daemon(root_path):
                 if name not in projects:
                     projects[name] = {}
                 log.info("Scanning Repo " + name)
-                updated_at = repo['updated_at']
-                created_at = repo['updated_at']
+                updated_at = utc(repo['updated_at'])
+                created_at = utc(repo['created_at'])
+                pushed_at = utc(repo['pushed_at'])
 
-                # NOTE(cfrademan): This does not work for tags/branches
-                # updating.
                 if (('updated_at' not in projects[name]) or
                         ('updated_at' in projects[name] and
-                         updated_at != projects[name]['updated_at'])):
+                         updated_at != projects[name]['updated_at']) or
+                    ('pushed_at' not in projects[name]) or
+                        ('pushed_at' in projects[name] and
+                         pushed_at != projects[name]['pushed_at'])):
 
-                    projects[name]['description'] = description
                     projects[name]['created_at'] = created_at
+                    projects[name]['description'] = description
                     projects[name]['clone_url'] = repo['clone_url']
-                    projects[name]['events'] = tachyonic.events(
-                        'TachyonicProject',
-                        name
-                    )
                     log.info("Getting Branches for %s" % name)
                     branches = tachyonic.branches('TachyonicProject', name)
+                    branches = [branch['name'] for branch in branches]
                     projects[name]['branches'] = branches
                     log.info("Getting Tags for %s" % name)
                     tags = tachyonic.tags('TachyonicProject', name)
+                    tags = [tag['name'] for tag in tags]
                     projects[name]['tags'] = tags
                     projects[name]['refs'] = version_order(branches + tags)
                     projects[name]['doc_refs'] = {}
@@ -144,6 +143,7 @@ def daemon(root_path):
                               updated_at,))
 
                 projects[name]['updated_at'] = updated_at
+                projects[name]['pushed_at'] = pushed_at
 
                 if 'updated_doc' not in projects[name]:
                     projects[name]['updated_doc'] = {}
@@ -178,15 +178,16 @@ def daemon(root_path):
 
                     projects[name]['updated_doc'][ref] = updated_at
 
-                save(projects, root_path + '/projects.pickle')
+                save(projects, root_path + '/projects.pickle', perms=664)
 
             events = []
             events_ordered = []
+            git_events = tachyonic.events('TachyonicProject')
             for pj in projects:
                 if pj not in found:
                     del projects[pj]
                 else:
-                    for event in projects[pj]['events']:
+                    for event in git_events:
                         type = event['type']
                         # created_at = event['created_at']
                         payload = event['payload']
@@ -207,9 +208,9 @@ def daemon(root_path):
             for item in sorted(events, key=operator.itemgetter(0)):
                 events_ordered.append(item)
             events_ordered = list(reversed(events_ordered))
-            save(events_ordered[0:10], root_path + '/events.pickle')
+            save(events_ordered[0:10], root_path + '/events.pickle', perms=664)
 
-            save(projects, root_path + '/projects.pickle')
+            save(projects, root_path + '/projects.pickle', perms=664)
             log.info('Infinite loop sleeping 5 Minutes')
             sleep(300)
 
