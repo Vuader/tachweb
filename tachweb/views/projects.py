@@ -1,4 +1,5 @@
 import os
+import operator
 import mimetypes
 import re
 
@@ -11,6 +12,7 @@ from luxon.utils.html import select
 from luxon import GetLogger
 from luxon.utils.encoding import if_bytes_to_unicode
 from luxon import g
+from luxon.utils.objects import load
 
 log = GetLogger(__name__)
 
@@ -78,7 +80,6 @@ def sphinx(req, resp):
         project = req.context.projects[name]
         refs = project['refs']
         description = project['description']
-
 
         if len(refs) == 0:
             raise HTTPNotFound("Project documentation not found")
@@ -230,15 +231,26 @@ def get_project(planning, project=None, assignee=None):
                    '/planning', cache=14400)
 def planning(req, resp):
     resp.content_type = TEXT_HTML
+
+    app = g.app_root
+
+    planning = load(app + '/planning.pickle')
+    planning_as_list = []
+    for project in planning:
+        planning_as_list.append(planning[project])
+
+    planning_as_list.sort(key=operator.itemgetter('name'))
+    planning = planning_as_list
+
     assignee = req.query_params.get('assignee')
     project = req.query_params.get('project')
     return render_template('tachweb/planning.html',
                            view_projects=get_project(
-                               req.context.planning,
+                               planning,
                                project,
                                assignee),
                            assignee=assignee,
-                           assignees=get_assignees(req.context.planning),
+                           assignees=get_assignees(planning),
                            project=project,
                            title='Project Planning',
-                           projects=get_projects(req.context.planning))
+                           projects=get_projects(planning))
