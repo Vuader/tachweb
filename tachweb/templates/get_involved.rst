@@ -27,7 +27,7 @@ Issues, bugs and feature requests can be made by logging issues on the individua
 Meetings
 ========
 
-We have regular weekly meeting scheduled at 20:00 GMT+2 on Wednesday. The meeting covers planning, issues and progress. 
+We have regular weekly meeting scheduled at 20:00 GMT+2 on a Thursday. The meeting covers planning, issues and progress. 
 
 The meetings are by invite utilizing zoom for remote users. We have two locations for these meetings within Pretoria or Midrand, South Africa.
 

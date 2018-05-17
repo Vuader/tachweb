@@ -52,6 +52,8 @@ g.nav_menu.add('/Documentation/DevStack',
 g.nav_menu.add('/Documentation/Lab',
                href='/sphinx/tachlab/latest/index.html')
 
+g.nav_menu.add('/Community/Contributors', href='/contributors')
+
 
 def format_body_only(html):
     html = if_bytes_to_unicode(html)
@@ -226,6 +228,14 @@ def get_project(planning, project=None, assignee=None):
                 projects.append(view_project)
 
     return projects
+
+
+@register.resource('GET',
+                   '/contributors', cache=14400)
+def planning(req, resp):
+    resp.content_type = TEXT_HTML
+    return render_template('tachweb/contributors.html',
+                           title="Contributors")
 
 
 @register.resource('GET',
