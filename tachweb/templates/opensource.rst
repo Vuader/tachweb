@@ -5,7 +5,7 @@ License
 =======
 BSD-3 Clause License
 
-Copyright (c) 2016 - {{ datetime().year }} Myria Solutions (PTY) Ltd.
+Copyright (c) 2016 - {{ now().year }} Myria Solutions (PTY) Ltd.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

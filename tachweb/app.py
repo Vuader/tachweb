@@ -28,13 +28,13 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 # THE POSSIBILITY OF SUCH DAMAGE.
 from luxon import g
-from luxon import register_middleware
-from luxon import error_template
+from luxon import register
 
-error_template('tachweb/error.html')
-from luxon import UIMenu
-from luxon.utils.html import NAVMenu
-g.nav_menu = UIMenu(NAVMenu)
+register.error_template('tachweb/error.html')
+
+from luxon import Menu
+from luxon.utils.bootstrap4 import NAVMenu
+g.nav_menu = Menu(NAVMenu)
 
 from tachweb import models
 from tachweb.github.middleware import GitHub
@@ -42,8 +42,8 @@ from tachweb.middleware import Website
 from luxon import __identity__ as luxon_version
 g.luxon_version = luxon_version
 
-register_middleware(Website)
-register_middleware(GitHub)
+register.middleware(Website)
+register.middleware(GitHub)
 
 import tachweb.views
 

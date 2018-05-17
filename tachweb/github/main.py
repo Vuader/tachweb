@@ -9,10 +9,8 @@ from pkg_resources import resource_stream
 
 from luxon import g
 from luxon import GetLogger
-from luxon import send_email
-from luxon.utils.app import init
-from luxon.utils.daemon import Daemon
-from luxon.utils.python import create_env
+from luxon import sendmail
+from luxon.utils.venv import create as create_env
 from luxon.utils.objects import save, load
 from luxon.utils.objects import object_name
 from luxon.utils.encoding import if_bytes_to_unicode
@@ -28,19 +26,22 @@ from psychokinetic.github import GitHub
 
 from tachweb.github.version import version_order
 
+from luxon.core.handlers.cmd import Cmd
+from luxon import register
+
 log = GetLogger()
 
 
 def handle_error(error, trace):
-    email = g.config.get('github', 'email')
-    rcpt = g.config.get('github', 'rcpt')
+    email = g.app.config.get('github', 'email')
+    rcpt = g.app.config.get('github', 'rcpt')
 
-    if g.debug:
+    if g.app.debug:
         log.debug(trace)
     else:
         log.error(error)
 
-    send_email(email, rcpt,
+    sendmail(email, rcpt,
                subject='GitHub TachWeb Error %s' % error,
                body=trace)
     log.info('Error in loop sleeping 15 minutes')
@@ -88,14 +89,17 @@ def clone(clone_url, dest):
     execute(["git", "clone", clone_url, dest])
 
 
-def daemon(root_path):
+@register.resource('GITHUB', '/sync')
+def github(req, resp):
+    root_path = g.app.path
+
     try:
         projects = load(root_path + '/projects.pickle')
     except FileNotFoundError:
         projects = {}
 
-    username = g.config.get('github', 'username')
-    password = g.config.get('github', 'password')
+    username = g.app.config.get('github', 'username')
+    password = g.app.config.get('github', 'password')
 
     tachyonic = GitHub(auth=(username, password))
 
@@ -227,47 +231,8 @@ def daemon(root_path):
 
 
 def main(argv):
-    try:
-        parser = argparse.ArgumentParser()
-        action = parser.add_mutually_exclusive_group()
-        parser.add_argument('path',
-                            help='Tachyonic Web Location')
-        action.add_argument('-s', '--start',
-                            action='store_true',
-                            help='Fork Process')
-        parser.add_argument('-f', '--fork',
-                            action='store_true',
-                            help='Fork Process')
-        action.add_argument('-k', '--kill',
-                            action='store_true',
-                            help='Stop/Kill Process')
-        action.add_argument('-r', '--restart',
-                            action='store_true',
-                            help='Restart Process')
-
-        args = parser.parse_args()
-        root_path = abspath(args.path)
-        init('github', root_path)
-        pid_file = root_path + '/github.pid'
-
-        def proc():
-            daemon(root_path)
-
-        fork = Daemon(pid_file, run=proc)
-
-        if args.start:
-            if args.fork is True:
-                fork.start()
-            else:
-                fork.start(fork=False)
-        else:
-            if args.kill is True:
-                fork.stop()
-            if args.restart is True:
-                fork.restart()
-
-    except KeyboardInterrupt:
-        print("Control-C closed / Killed")
+    tachweb = Cmd('TachWeb', ini=False, path='/tmp')
+    tachweb()
 
 
 def entry_point():

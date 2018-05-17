@@ -3,12 +3,12 @@ import operator
 import mimetypes
 import re
 
-from luxon import register_resource
+from luxon import register
 from luxon import constants as const
 from luxon.exceptions import HTTPNotFound
 from luxon import render_template
 from luxon.constants import TEXT_HTML
-from luxon.utils.html import select
+from luxon.utils.html5 import select
 from luxon import GetLogger
 from luxon.utils.encoding import if_bytes_to_unicode
 from luxon import g
@@ -64,20 +64,20 @@ def format_body_only(html):
     return "No content/body"
 
 
-@register_resource(['GET', 'POST'],
+@register.resource(['GET', 'POST'],
                    'regex:^/sphinx.*$', cache=14400)
 def sphinx(req, resp):
-    app_root = g.app_root
     full_path = req.route.strip('/').split('/')[1:]
 
-    if len(full_path) > 0 and full_path[0] in req.context.projects:
+    if len(full_path) > 0 and full_path[0] in req.context['projects']:
         resp.content_type = TEXT_HTML
         name = full_path[0]
         goto = req.get_first('ref')
         if goto is not None:
-            return resp.redirect('/sphinx/%s/%s' % (name, goto,))
+            return resp.redirect('%s/sphinx/%s/%s' %
+                                 (g.current_request.app, name, goto,))
 
-        project = req.context.projects[name]
+        project = req.context['projects'][name]
         refs = project['refs']
         description = project['description']
 
@@ -87,14 +87,16 @@ def sphinx(req, resp):
         if len(full_path) > 1:
             ref = full_path[1]
         else:
-            return resp.redirect('/sphinx/%s/%s/index.html' % (name, refs[0],))
+            return resp.redirect('%s/sphinx/%s/%s/index.html' %
+                                 (g.current_request.app, name, refs[0],))
 
         doc_path = full_path[2:]
 
-        html_root = app_root + '/docs/%s_%s' % (name, ref)
+        html_root = g.app.path + '/docs/%s_%s' % (name, ref)
 
         if len(doc_path) == 0:
-            return resp.redirect('/sphinx/%s/%s/index.html' % (name, ref,))
+            return resp.redirect('%s/sphinx/%s/%s/index.html' %
+                                 (g.current_request.app, name, ref,))
         else:
             path = "/".join(doc_path)
 
@@ -132,13 +134,12 @@ def sphinx(req, resp):
 
 
 def projects_docs():
-    app_root = g.app_root
-    projects = g.current_request.context.projects
+    projects = g.current_request.context['projects']
     docs = {}
     for project in projects:
         docs[project] = []
         for tag in projects[project]['refs']:
-            html_root = app_root + '/docs/%s_%s' % (project, tag,)
+            html_root = g.app.path + '/docs/%s_%s' % (project, tag,)
             if os.path.exists(html_root):
                 docs[project].append(tag)
 
@@ -147,12 +148,12 @@ def projects_docs():
     return docs
 
 
-@register_resource('GET',
+@register.resource('GET',
                    '/projects', cache=14400)
 def projects(req, resp):
     resp.content_type = TEXT_HTML
     rst = render_template('tachweb/projects.rst', rst2html=True)
-    projects = req.context.projects
+    projects = req.context['projects']
     projects_sorted = sorted(projects.keys())
     versions = {}
     docs = projects_docs()
@@ -171,11 +172,11 @@ def projects(req, resp):
                            rst=rst)
 
 
-@register_resource('GET',
+@register.resource('GET',
                    '/project/{project}', cache=14400)
 def project(req, resp, project):
     resp.content_type = TEXT_HTML
-    project = req.context.projects[project]
+    project = req.context['projects'][project]
     return render_template('tachweb/project.html', project=project)
 
 
@@ -227,14 +228,12 @@ def get_project(planning, project=None, assignee=None):
     return projects
 
 
-@register_resource('GET',
+@register.resource('GET',
                    '/planning', cache=14400)
 def planning(req, resp):
     resp.content_type = TEXT_HTML
 
-    app = g.app_root
-
-    planning = load(app + '/planning.pickle')
+    planning = load(g.app.path + '/planning.pickle')
     planning_as_list = []
     for project in planning:
         planning_as_list.append(planning[project])
