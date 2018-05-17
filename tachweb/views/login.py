@@ -51,7 +51,7 @@ def login(req, resp):
             error = e
 
     return render_template('tachweb/login.html',
-                           error=error)
+                           error=error, no_side=True)
 
 
 @register.resource('GET',
