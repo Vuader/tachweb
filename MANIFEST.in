@@ -27,3 +27,5 @@ graft tachweb/templates
 
 # Static Content
 graft tachweb/static
+graft tachweb/policy.json
+graft tachweb/settings.ini
