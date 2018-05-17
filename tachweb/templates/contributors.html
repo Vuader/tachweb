@@ -1,8 +1,6 @@
 {% extends "tachweb/base.html" %} 
 {% block content %}
 <div class="rst-content">
-    {% for team in REQ.context['team'] %}
-    <h1>{{ team }}</h1>
     <table class="docutils">
         <thead>
             <tr>
@@ -12,15 +10,21 @@
             </tr>
         </thead>
         <tbody valign="top">
+        {% for team in REQ.context['team'] %}
+            <tr>
+                <td width="60">&nbsp;</td>
+                <td><h3>{{ team }}</h3></td>
+                <td>&nbsp;</td>
+            </tr>
             {% for member in REQ.context['team'][team] %}
             <tr>
-                <td width='60'><img src="{{ REQ.context['team'][team][member]['avatar'] }}"></td>
+                <td width="60"><img src="{{ REQ.context['team'][team][member]['avatar'] }}"></td>
                 <td>{{ member }}</td>
                 <td><A HREF="{{ REQ.context['team'][team][member]['github'] }}" target="_blank">{{ REQ.context['team'][team][member]['github'] }}</A></td>
             </tr>
             {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
-    {% endfor %}
 </div>
 {% endblock %}
