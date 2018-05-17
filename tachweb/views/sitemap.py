@@ -1,10 +1,10 @@
 from luxon import g
-from luxon import register_resource
+from luxon import register
 from luxon.constants import TEXT_PLAIN
 
 
-@register_resource('GET', '/sitemap')
-@register_resource('GET', '/sitemap.txt')
+@register.resource('GET', '/sitemap')
+@register.resource('GET', '/sitemap.txt')
 def sitemap(req, resp):
     sitemap = []
     resp.content_type = TEXT_PLAIN
