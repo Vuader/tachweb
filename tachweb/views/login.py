@@ -1,4 +1,4 @@
-from luxon import register_resource
+from luxon import register
 from luxon import render_template
 from luxon.constants import TEXT_HTML
 from luxon import GetLogger
@@ -25,12 +25,12 @@ def auth(username, password):
     return roles
 
 
-@register_resource(['GET', 'POST'],
+@register.resource(['GET', 'POST'],
                    '/login')
 def login(req, resp):
     resp.content_type = TEXT_HTML
     if req.credentials.authenticated:
-        resp.redirect('/')
+        resp.redirect(req.app + '/')
         return
 
     username = req.get_first('username', default=None)
@@ -43,7 +43,8 @@ def login(req, resp):
             req.credentials.new(username)
             req.credentials.roles = roles
             req.user_token = req.credentials.token
-            resp.redirect('/')
+            resp.redirect(req.app + '/')
+            return
         except HTTPError as e:
             error = e
         except AccessDeniedError as e:
@@ -53,9 +54,9 @@ def login(req, resp):
                            error=error)
 
 
-@register_resource('GET',
+@register.resource('GET',
                    '/logout')
 def logout(req, resp):
     resp.content_type = TEXT_HTML
     req.session.clear()
-    resp.redirect('/')
+    resp.redirect(req.app + '/')
