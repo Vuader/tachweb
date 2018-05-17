@@ -8,6 +8,17 @@ div.login {
     max-width: 300px;
 }
 
+div.login {
+    max-width: 300px;
+}
+
+div.login_current {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #000000;
+  background-color: #aee9ef;
+}
+
 span.sitemap {
     text-align:center;
     display:inline-block;
