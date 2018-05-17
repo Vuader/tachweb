@@ -119,7 +119,7 @@ def sphinx(req, resp):
                 home = '%s/sphinx/%s/%s/index.html' % (req.app, name, ref,)
                 description = "%s (%s)" % (description, name,)
                 return render_template('tachweb/sphinx.html', refs=refs,
-                                       doc=sfile, no_news=True,
+                                       doc=sfile,
                                        project=name, title=description,
                                        description=description,
                                        git=git, home=home)

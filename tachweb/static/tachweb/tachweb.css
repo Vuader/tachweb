@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+div.login {
+    max-width: 300px;
+}
+
 span.sitemap {
     text-align:center;
     display:inline-block;
@@ -71,13 +75,6 @@ div.hinting {
   padding-bottom: 5px;
   color: #ffffff;
   background-color: #48284a;
-}
-
-div.login {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  color: #000000;
-  background-color: #aee9ef;
 }
 
 div.box {
