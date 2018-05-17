@@ -38,6 +38,23 @@ def github(req, resp):
 
     while True:
         try:
+            teams = {}
+            github = GitHub(('cfrademan', 'Sw33tr00t83@!!-',))
+            github_teams = github.teams('TachyonicProject')
+            for github_team in github_teams:
+                team = github_team['name']
+                if team == "Author":
+                    continue
+                teams[team] = {}
+                github_members = github.team_members(github_team['id'])
+                for github_member in github_members:
+                    login = github_member['login']
+                    teams[team][login] = {}
+                    teams[team][login]['github'] = github_member['html_url']
+                    teams[team][login]['avatar'] = github_member['avatar_url']
+            save(teams,
+                 root_path + '/team.pickle', perms=664)
+
             save(tachyonic.projects('TachyonicProject'),
                  root_path + '/planning.pickle', perms=664)
             found = []

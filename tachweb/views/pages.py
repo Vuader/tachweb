@@ -7,7 +7,6 @@ from luxon.constants import TEXT_HTML
 log = GetLogger(__name__)
 
 g.nav_menu.add('/Community/Sponsors', href='/rst/project_sponsors')
-g.nav_menu.add('/Community/Contributors', href='/rst/contributors')
 g.nav_menu.add('/Community/Get involved', href='/rst/get_involved')
 g.nav_menu.add('/Media', href='/rst/media')
 

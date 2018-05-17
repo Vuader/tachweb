@@ -5,13 +5,19 @@ from luxon import g
 class GitHub(object):
     def pre(self, req, resp):
         try:
-            projects = load(g.app.path + '/projects.pickle')
-            req.context['projects'] = projects
+            req.context['projects'] = load(g.app.path +
+                                           '/projects.pickle')
         except FileNotFoundError:
             req.context['projects'] = {}
 
         try:
-            events = load(g.app.path + '/events.pickle')
-            req.context['news'] = events
+            req.context['news'] = load(g.app.path +
+                                       '/events.pickle')
         except FileNotFoundError:
             req.context['news'] = []
+
+        try:
+            req.context['team'] = load(g.app.path +
+                                       '/team.pickle')
+        except FileNotFoundError:
+            req.context['team'] = {}
