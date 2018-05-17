@@ -122,6 +122,7 @@ def sphinx(req, resp):
                 description = "%s (%s)" % (description, name,)
                 return render_template('tachweb/sphinx.html', refs=refs,
                                        doc=sfile,
+                                       no_side=True,
                                        project=name, title=description,
                                        description=description,
                                        git=git, home=home)
@@ -232,7 +233,7 @@ def get_project(planning, project=None, assignee=None):
 
 @register.resource('GET',
                    '/contributors', cache=14400)
-def planning(req, resp):
+def contributors(req, resp):
     resp.content_type = TEXT_HTML
     return render_template('tachweb/contributors.html',
                            title="Contributors")
