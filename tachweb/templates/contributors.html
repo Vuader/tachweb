@@ -1,0 +1,26 @@
+{% extends "tachweb/base.html" %} 
+{% block content %}
+<div class="rst-content">
+    {% for team in REQ.context['team'] %}
+    <h1>{{ team }}</h1>
+    <table class="docutils">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Login/Alias</th>
+                <th>GitHub</th>
+            </tr>
+        </thead>
+        <tbody valign="top">
+            {% for member in REQ.context['team'][team] %}
+            <tr>
+                <td width='60'><img src="{{ REQ.context['team'][team][member]['avatar'] }}"></td>
+                <td>{{ member }}</td>
+                <td><A HREF="{{ REQ.context['team'][team][member]['github'] }}" target="_blank">{{ REQ.context['team'][team][member]['github'] }}</A></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+</div>
+{% endblock %}
