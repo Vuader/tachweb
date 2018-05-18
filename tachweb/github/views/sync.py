@@ -7,7 +7,7 @@ from luxon import GetLogger
 from luxon.utils.venv import create as create_env
 from luxon.utils.objects import save, load
 from luxon.utils.objects import object_name
-from luxon.utils.files import exists
+from luxon.utils.files import exists, mkdir, joinpath
 from luxon.exceptions import ExecuteError
 from luxon.utils.timezone import utc
 from luxon import register
@@ -25,6 +25,8 @@ log = GetLogger()
 @register.resource('GITHUB', '/sync')
 def github(req, resp):
     root_path = g.app.path
+    mkdir(joinpath(root_path, 'github'))
+    mkdir(joinpath(root_path, 'docs'))
 
     try:
         projects = load(root_path + '/projects.pickle')
