@@ -63,3 +63,9 @@ You will notice that none of the documentation has been built and information so
 .. code:: bash
 
     $ tachweb -a tachweb github sync
+
+Your IDE and working on the code
+--------------------------------
+Depending on your IDE it may not pickup the python packages installed in the virtualenv. So you may need to install outside of a virtualenv for development. Otherwise your IDE for example may not autocomplete and report some imports invalid etc.
+
+
