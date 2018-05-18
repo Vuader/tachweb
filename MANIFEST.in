@@ -16,11 +16,9 @@ graft tests
 include setup.py
 
 # Templates
-graft tachweb/ui/templates
 graft tachweb/templates
 
 # Static
-graft tachweb/ui/static
 graft tachweb/static
 
 # Other
