@@ -58,7 +58,7 @@ The website can be accessed by http://127.0.0.1:8080
 Updating Website with GitHub information
 ----------------------------------------
 
-You will notice that none of the documentation has been built and information sourced from github is missing. This task is given to backend process. You can it like so
+You will notice that none of the documentation has been built and information sourced from github is missing. This task is given to backend process. You can run it like so:
 
 .. code:: bash
 
