@@ -24,6 +24,8 @@ graft tachweb/static
 # Other
 recursive-include tachweb *.json
 recursive-include tachweb *.ini
+recursive-include tachweb *.tpl
+recursive-include tachweb *.sh
 
 # NO-CYTHON PACKAGES
 recursive-exclude tachweb *.c
