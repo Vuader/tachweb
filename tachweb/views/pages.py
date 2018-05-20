@@ -27,8 +27,3 @@ def pages(req, resp, page):
     resp.content_type = TEXT_HTML
     return view_rst(page)
 
-
-@register.resource('GET', '/', cache=14400)
-def home(req, resp):
-    resp.content_type = TEXT_HTML
-    return view_rst('tachyonic_project')

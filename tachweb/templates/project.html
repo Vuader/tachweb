@@ -1,3 +1,30 @@
 {% extends "tachweb/base.html" %} 
 {% block content %}
+<script>
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+</script>
+<div id="tabs">
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#opensource">Opensource</a></li>
+    </ul>
+    <div id="overview">
+        <div class="rst-content">
+        {{ overview }}
+        </div>
+    </div>
+    <div id="projects">
+        <div class="rst-content">
+        {{ projects }}
+        </div>
+    </div>
+    <div id="opensource">
+        <div class="rst-content">
+        {{ opensource }}
+        </div>
+    </div>
+</div>
 {% endblock %}
