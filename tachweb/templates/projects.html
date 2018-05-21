@@ -1,33 +1,17 @@
 {{ rst }}
-<table class="docutils">
-    <tbody valign="top">
-    {% for project in projects_sorted: %}
-        <tr>
-            <th>{{project}}</th>
-            <td><B><I>{% if projects[project]['description'] %} {{ projects[project]['description'] }} {% endif %}<B></I></td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>Verisons {{ versions[project] }} </td>
-        </tr>
-        {% for doc in docs[project] %}
-        <tr>
-            <td>&nbsp;</td>
-            <td><A HREF='/sphinx/{{project}}/{{ doc }}'>{{ doc }} Documentation</A></td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td>&nbsp;</td>
-            <td>Clone URL {{ projects[project]['clone_url'] }}</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>Started {{ format_datetime(projects[project]['created_at']) }}</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>Updated {{ format_datetime(projects[project]['updated_at']) }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% for project in projects_sorted: %}
+<div class="section">
+<H1>{{project}}</H1>
+<blockquote><p>{% if projects[project]['description'] %} {{ projects[project]['description'].strip('.') }}. {% endif %} Versions/Branches {{ versions[project] }}. </p>
+    <p>Started {{ format_datetime(projects[project]['created_at']) }},
+    Updated {{ format_datetime(projects[project]['updated_at']) }}</p>
+    <ul class="simple">
+{% for doc in docs[project] %}
+<li><A HREF='/sphinx/{{project}}/{{ doc }}'>{{ doc }} Documentation</A></li>
+{% endfor %}
+    </ul>
+
+<p>Clone URL {{ projects[project]['clone_url'] }}</p>
+</blockquote>
+</div>
+{% endfor %}
