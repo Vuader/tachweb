@@ -49,7 +49,7 @@ Object Store
 
 Sharing objects
 ---------------
-    Sharing data between processes and redundant nodes we use Redis in-memory data structure store, used for cache, state-sharing, sessions.
+    Sharing data between processes and redundant nodes we use Redis in-memory data structure store. Primarily used for our cache, state-sharing and sessions.
 
     Redis supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps, hyperloglogs and geospatial indexes with radius queries.
 
