@@ -34,8 +34,10 @@ def handle_error(error, trace):
     else:
         log.error(error)
 
+    trace = "%s\n\n%s" % (error, trace,)
+
     sendmail(email, rcpt,
-             subject='GitHub TachWeb Error %s' % error,
+             subject='GitHub TachWeb Error %s' % error[0:15],
              body=trace)
     log.info('Error in loop sleeping 15 minutes')
     sleep(900)
