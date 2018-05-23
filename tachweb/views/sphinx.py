@@ -25,8 +25,6 @@ g.nav_menu.add('/Documentation/InfinityStone',
                href='/sphinx/infinitystone/latest/index.html')
 g.nav_menu.add('/Documentation/Netrino',
                href='/sphinx/netrino/latest/index.html')
-g.nav_menu.add('/Documentation/Telepahtic',
-               href='/sphinx/telepathic/latest/index.html')
 g.nav_menu.add('/Documentation/Yoshii',
                href='/sphinx/yoshii/latest/index.html')
 g.nav_menu.add('/Documentation/Katalog',
