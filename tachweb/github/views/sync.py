@@ -16,7 +16,8 @@ from psychokinetic.github import GitHub
 from tachweb.github.version import version_order
 from tachweb.github.views.utils import (build_doc,
                                         clone,
-                                        handle_error)
+                                        handle_error,
+                                        updated)
 
 
 log = GetLogger()
@@ -132,9 +133,10 @@ def github(req, resp):
                             exists(src_path + '/docs/Makefile')):
                         log.info("Bulding '%s/%s'" % (name, ref,))
                         projects[name]['doc_refs'][ref] = True
-                        build_doc(root_path, venv_dir,
-                                  src_path, ref,
-                                  doc_dir, name)
+                        info = build_doc(root_path, venv_dir,
+                                         src_path, ref,
+                                         doc_dir, name)
+                        updated(name, ref, info)
                     else:
                         projects[name]['doc_refs'][ref] = False
                         log.warning("No Sphinx docs found '%s/%s'" %

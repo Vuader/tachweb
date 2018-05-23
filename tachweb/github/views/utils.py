@@ -16,6 +16,15 @@ from luxon import GetLogger
 log = GetLogger(__name__)
 
 
+def updated(repo, branch, info):
+    email = g.app.config.get('github', 'email')
+    rcpt = g.app.config.get('github', 'rcpt')
+    sendmail(email, rcpt,
+             subject='GitHub Docs/Project %s/%s updated' %
+             (repo, branch,),
+             body=info)
+
+
 def handle_error(error, trace):
     email = g.app.config.get('github', 'email')
     rcpt = g.app.config.get('github', 'rcpt')
@@ -62,11 +71,11 @@ def build_doc(root_path, venv_path, src_path, ref, doc_dir, name):
 
     chmod(buildsh, 700)
 
-    execute(["/usr/bin/env",
-            venv_path + "/build.sh",
-            venv_path,
-            src_path,
-            doc_dir], check=True)
+    return execute(["/usr/bin/env",
+                    venv_path + "/build.sh",
+                    venv_path,
+                    src_path,
+                    doc_dir], check=True)
 
 
 def clone(clone_url, dest):
