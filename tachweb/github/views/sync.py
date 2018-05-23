@@ -9,7 +9,7 @@ from luxon.utils.objects import save, load
 from luxon.utils.objects import object_name
 from luxon.utils.files import exists, mkdir, joinpath
 from luxon.exceptions import ExecuteError
-from luxon.utils.timezone import utc
+from luxon.utils.timezone import utc, now, format_iso8601
 from luxon import register
 from psychokinetic.github import GitHub
 
@@ -41,14 +41,13 @@ def github(req, resp):
     while True:
         try:
             teams = {}
-            github = GitHub(('cfrademan', 'Sw33tr00t83@!!-',))
-            github_teams = github.teams('TachyonicProject')
+            github_teams = tachyonic.teams('TachyonicProject')
             for github_team in github_teams:
                 team = github_team['name']
                 if team == "Author":
                     continue
                 teams[team] = {}
-                github_members = github.team_members(github_team['id'])
+                github_members = tachyonic.team_members(github_team['id'])
                 for github_member in github_members:
                     login = github_member['login']
                     teams[team][login] = {}
@@ -59,6 +58,7 @@ def github(req, resp):
 
             save(tachyonic.projects('TachyonicProject'),
                  root_path + '/planning.pickle', perms=664)
+
             found = []
             log.info("Getting Repos")
             repos = tachyonic.repos('TachyonicProject')
@@ -105,12 +105,20 @@ def github(req, resp):
                     projects[name]['updated_doc'] = {}
 
                 for ref in projects[name]['refs']:
-                    if (ref in projects[name]['updated_doc'] and
-                            updated_at == projects[name]['updated_doc'][ref]):
-                        log.info("Documentation" +
-                                 " '%s/%s'" % (name, ref,) +
-                                 " Already up-to-date (%s)" % updated_at)
-                        continue
+                    current_datetime = now()
+                    if ref in projects[name]['updated_doc']:
+                        commits = tachyonic.commits(
+                            'TachyonicProject',
+                            name, sha=ref,
+                            since=format_iso8601(
+                                projects[name]['updated_doc'][ref]
+                            )
+                        )
+                        if len(commits) == 0:
+                            log.info("Documentation" +
+                                     " '%s/%s'" % (name, ref,) +
+                                     " Already up-to-date (%s)" % updated_at)
+                            continue
 
                     venv_dir = "%s/github/%s_%s" % (root_path, name, ref,)
                     doc_dir = "%s/docs/%s_%s" % (root_path, name, ref,)
@@ -132,7 +140,7 @@ def github(req, resp):
                         log.warning("No Sphinx docs found '%s/%s'" %
                                     (name, ref,))
 
-                    projects[name]['updated_doc'][ref] = updated_at
+                    projects[name]['updated_doc'][ref] = current_datetime
 
                 save(projects, root_path + '/projects.pickle', perms=664)
 
@@ -145,16 +153,12 @@ def github(req, resp):
                 else:
                     for event in git_events:
                         type = event['type']
-                        # created_at = event['created_at']
                         payload = event['payload']
                         if type == 'PullRequestEvent':
                             pr = payload['pull_request']
                             merged = pr['merged']
-                            # status = pr['state']
-                            # head = pr['head']
                             base = pr['base']
                             ref = base['ref']
-                            # title = pr['title']
                             if merged is True:
                                 merged_at = utc(pr['merged_at'])
                                 events.append((merged_at,
