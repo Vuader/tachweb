@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{STATIC}}/tachweb/pygments.css" />
     <title>Tachyonic Project{% if title %} - {{ title }} {% endif %}</title>
 </head>
-<body>
+<body onload="parent.scrollTo(0,0);">
     {% if REQ.credentials.authenticated %}
     <div class="login_current">
         <div class="container">
