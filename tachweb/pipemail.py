@@ -22,9 +22,9 @@ Greetings {% if name %} {{name}} {% endif %}
 {{body}}
 
 You can unsubscribe by using this link:
-http://www.tachyonic.org/unsubscribe/{{token}}<BR>
+http://www.tachyonic.org/unsubscribe/{{email_to}}<BR>
 
-<A HREF="http://www.tachyonic.org/unsubscribe/{{token}}">Click Here to unsubscribe</A>
+<A HREF="http://www.tachyonic.org/unsubscribe/{{email_to}}">Click Here to unsubscribe</A>
 
 </body>
 </html>
@@ -38,7 +38,7 @@ Greetings {% if name %} {{name}} {% endif %}
 
 {{body}}
 
-You can unsubscribe here: http://www.tachyonic.org/unsubscribe/{{token}}
+You can unsubscribe here: http://www.tachyonic.org/unsubscribe/{{email_to}}
 """
 
 # ALLOWED UNIX USERS
@@ -69,7 +69,6 @@ def main(argv):
                        email_from='no-reply@tachyonic.org',
                        email_to=to,
                        multipart=True,
-                       token=rcpt['token'],
                        name=rcpt['name'])
             try:
                 send_email('no-reply@tachyonic.org', to, msg=new)

@@ -4,3 +4,4 @@ import tachweb.views.pages
 import tachweb.views.sitemap
 import tachweb.views.login
 import tachweb.views.email
+import tachweb.views.newsletter

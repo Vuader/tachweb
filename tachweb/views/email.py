@@ -7,11 +7,11 @@ from luxon import g
 log = GetLogger(__name__)
 
 g.nav_menu.add('/Admin/News Letter',
-               href='/newsletter', tag='newsletter_admin')
+               href='/newsletter-admin', tag='newsletter_admin')
 
 
-@register.resource('GET', '/newsletter', tag='newsletter_admin')
+@register.resource('GET', '/newsletter-admin', tag='newsletter_admin')
 def newsletter(req, resp):
     resp.content_type = TEXT_HTML
-    return render_template('tachweb/newsletter.html',
+    return render_template('tachweb/newsletter_admin.html',
                            title="Newsletter Admin")

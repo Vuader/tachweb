@@ -1,0 +1,9 @@
+{% extends "tachweb/base.html" %}
+{% block content %}
+<div>
+    <h1>Tachyonic Newsletter</h1>
+    <p>Thank you {{ name }} for your interest in the Tachyonic Project.</p>
+    <p> If you ever wish to unsubscribe,
+        simply visit <a href="/unsubscribe/{{ email }}">http://tachyonic.org/unsubscribe/{{ email }}</a></p>
+</div>
+{% endblock %}
