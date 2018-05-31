@@ -1,0 +1,20 @@
+{% extends "tachweb/base.html" %}
+{% block content %}
+<div>
+    <h1>Tachyonic Newsletter</h1>
+    <p>To stay on top of the latest and greatest happenings, subscribe to our newsletter.</p>
+    <form method="POST">
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text" class="form-control" id="name", name="name">
+      </div>
+      {{ error }}
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
+        <small id="emailHelp" class="form-text text-muted">We hate spam as much as you do, and will never share your email with anyone else.</small>
+      </div>
+      <button type="submit" class="btn btn-primary">Subscribe</button>
+    </form>
+</div>
+{% endblock %}
