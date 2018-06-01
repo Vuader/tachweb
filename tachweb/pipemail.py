@@ -22,9 +22,9 @@ Greetings {% if name %} {{name}} {% endif %}
 {{body}}
 
 You can unsubscribe by using this link:
-http://www.tachyonic.org/unsubscribe/{{email_to}}<BR>
+http://www.tachyonic.org/unsubscribe/{{id}}<BR>
 
-<A HREF="http://www.tachyonic.org/unsubscribe/{{email_to}}">Click Here to unsubscribe</A>
+<A HREF="http://www.tachyonic.org/unsubscribe/{{id}}">Click Here to unsubscribe</A>
 
 </body>
 </html>
@@ -38,7 +38,7 @@ Greetings {% if name %} {{name}} {% endif %}
 
 {{body}}
 
-You can unsubscribe here: http://www.tachyonic.org/unsubscribe/{{email_to}}
+You can unsubscribe here: http://www.tachyonic.org/unsubscribe/{{id}}
 """
 
 # ALLOWED UNIX USERS

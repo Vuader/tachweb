@@ -10,7 +10,7 @@ EMAILS = [
 
 
 @register.model()
-class newslist(SQLModel):
+class NewsList(SQLModel):
     id = SQLModel.Uuid(default=uuid4, internal=True)
     email = SQLModel.Email(null=False)
     name = SQLModel.Text()
@@ -21,7 +21,7 @@ class newslist(SQLModel):
 
 
 @register.model()
-class newsletters(SQLModel):
+class NewsLetters(SQLModel):
     id = SQLModel.Uuid(default=uuid4, internal=True)
     message = SQLModel.LongText()
     creation_time = SQLModel.DateTime(default=now, readonly=True)
