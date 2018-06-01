@@ -11,8 +11,7 @@ from luxon import GetLogger
 from luxon.utils.encoding import if_bytes_to_unicode
 from luxon import g
 from luxon import db
-from uuid import uuid4
-
+from tachweb.models.newsletter import NewsList
 log = GetLogger(__name__)
 
 g.nav_menu.add('/Community/Newsletter', href='/newsletter')
@@ -36,22 +35,19 @@ def subscribe(req, resp):
             content = '<div class="alert alert-danger">'
             content += 'Email is required</div>'
             return render_template('tachweb/subscribe.html', error=content)
-        email = data['email']
-        name = data['name'] if 'name' in data else None;
-        sql = 'INSERT INTO newslist (email,name) ' \
-              'VALUES (?,?)'
-        with db() as cur:
-            cur.execute(sql,(email,name))
-            cur.commit()
+        data['name'] = '' if not data['name'] else data['name'];
+        nl = NewsList()
+        nl.update(data)
+        nl.commit()
         return render_template('tachweb/subscribed.html', name=data['name'],
-                               email=data['email'])
+                                    token=nl['id'])
 
-@register.resource('GET','/unsubscribe/{email}')
-def unsubscribe(req, resp, email):
+@register.resource('GET','/unsubscribe/{uuid}')
+def unsubscribe(req, resp, uuid):
     resp.content_type = TEXT_HTML
-    sql = 'DELETE FROM newslist WHERE email=?'
+    sql = 'DELETE FROM newslist WHERE id=?'
     with db() as cur:
-        cur.execute(sql, (email,))
+        cur.execute(sql, (uuid,))
         cur.commit()
     return render_template('tachweb/unsubscribed.html')
 
