@@ -2,5 +2,42 @@
 {% block content %}
 <div class="rst-content">
     <h1>Tachyonic Newsletter Adminstration</h1>
+
+    <table border="0">
+    <th>
+        Received on
+    </th>
+    <th>
+        Received by
+    </th>
+    <th>
+        Last sent
+    </th>
+    <th>
+        Preview
+    </th>
+    <th>
+        &nbsp;
+    </th>
+        {%  for nl in newsletters %}
+        <tr>
+            <td>
+                {{ nl.creation_time }}
+            </td>
+            <td>
+                {{ nl.sender }}
+            </td>
+            <td>
+                {{ nl.last_sent }}
+            </td>
+            <td>
+                <a href="/view/{{ nl.id }}" target="_blank">click</a>
+            </td>
+            <td>
+                <a href="/send/{{ nl.id }}" target="_blank">send now</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 {% endblock %}

@@ -1,0 +1,12 @@
+{% raw %}Hi {% if name %} {{name}} {% endif %} {% endraw %}
+
+
+* {{ month }} {{ year }} - {{ subject }} *
+
+{% raw %}
+{{ body }}
+
+The Tachyonic Project
+
+You can unsubscribe here: http://www.tachyonic.org/unsubscribe/{{id}}
+{% endraw %}
