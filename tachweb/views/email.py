@@ -74,4 +74,9 @@ def preview_newsletter(req, resp, id):
     resp.content_type = TEXT_HTML
     with db() as conn:
         r = conn.execute('SELECT message FROM newsletters WHERE id=?',(id,))
-        return r['message']
+        msg = email.message_from_string(r['message'])
+        for part in msg.walk():
+            if part.get_content_maintype() == 'multipart':
+                continue
+            if part.get_content_type() == "text/html":
+                return part.get_payload(decode=True)
