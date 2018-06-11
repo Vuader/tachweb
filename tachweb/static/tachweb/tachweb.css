@@ -127,18 +127,18 @@ table {
 
 body {
     position: relative;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-    font-weight:normal;
     color:#404040;
     min-height:100%;
     overflow-x:hidden;
     padding: 0px;
     background-color: #88a291;
     min-height: 100%;
+    font-size: 13px;
 }
 
 html {
     box-sizing: border-box;
     height: 100%;
+    font-size: 13px;
 }
 
