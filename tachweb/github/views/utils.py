@@ -9,6 +9,9 @@ from luxon.utils.system import execute
 from luxon.utils.files import (chmod,
                                chdir,
                                exists,
+                               joinpath,
+                               abspath,
+                               dirname,
                                rm,)
 from luxon import GetLogger
 
@@ -41,6 +44,11 @@ def handle_error(error, trace):
              body=trace)
     log.info('Error in loop sleeping 15 minutes')
     sleep(900)
+
+
+def build_venv(venv_path):
+    venvsh = joinpath(abspath(dirname(__file__)), '..', 'venv.sh')
+    execute([venvsh, venv_path])
 
 
 def build_doc(root_path, venv_path, src_path, ref, doc_dir, name):
