@@ -15,6 +15,7 @@ from psychokinetic.github import GitHub
 
 from tachweb.github.version import version_order
 from tachweb.github.views.utils import (build_doc,
+                                        build_venv,
                                         clone,
                                         handle_error,
                                         updated)
@@ -125,7 +126,7 @@ def github(req, resp):
                     doc_dir = "%s/docs/%s_%s" % (root_path, name, ref,)
                     src_path = venv_dir + '/' + name
                     log.info("Creating Virtual Environment '%s'" % venv_dir)
-                    create_env(str(venv_dir), wipe=True, site_packages=False)
+                    build_venv(str(venv_dir))
 
                     clone(projects[name]['clone_url'], src_path)
 
