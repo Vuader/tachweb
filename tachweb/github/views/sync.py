@@ -4,10 +4,9 @@ from time import sleep
 
 from luxon import g
 from luxon import GetLogger
-from luxon.utils.venv import create as create_env
 from luxon.utils.objects import save, load
 from luxon.utils.objects import object_name
-from luxon.utils.files import exists, mkdir, joinpath
+from luxon.utils.files import exists, mkdir, joinpath, chdir
 from luxon.exceptions import ExecuteError
 from luxon.utils.timezone import utc, now, format_iso8601
 from luxon import register
@@ -42,6 +41,7 @@ def github(req, resp):
 
     while True:
         try:
+            chdir(root_path)
             teams = {}
             github_teams = tachyonic.teams('TachyonicProject')
             for github_team in github_teams:
