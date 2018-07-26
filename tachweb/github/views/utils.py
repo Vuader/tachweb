@@ -56,23 +56,34 @@ def build_doc(root_path, venv_path, src_path, ref, doc_dir, name):
     log.info("Checkout '%s/%s'" % (name, ref,))
     execute(["git", "checkout", ref])
     metadata_py = src_path + '/' + name + '/metadata.py'
+    if not exists(metadata_py):
+        return None
+
     exec_globals = {}
     exec(open(metadata_py).read(), exec_globals, exec_globals)
+
+    if 'package' not in exec_globals:
+        return None
 
     confpy = venv_path + '/conf.py'
     if exists(confpy):
         rm(confpy)
+
     with resource_stream('tachweb', 'github/conf.py.tpl') as tpl_file:
         template = Template(if_bytes_to_unicode(tpl_file.read()))
+
     with open(confpy, 'w') as real_file:
         real_file.write(template.safe_substitute(
             **exec_globals))
 
     buildsh = venv_path + '/build.sh'
+
     if exists(buildsh):
         rm(buildsh)
+
     with resource_stream('tachweb', 'github/build.sh.tpl') as tpl_file:
         template = Template(if_bytes_to_unicode(tpl_file.read()))
+
     with open(buildsh, 'w') as real_file:
         real_file.write(template.safe_substitute(
             virtualenv=venv_path,
