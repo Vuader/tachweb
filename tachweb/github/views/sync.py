@@ -65,7 +65,10 @@ def github(req, resp):
             log.info("Getting Repos")
             repos = tachyonic.repos('TachyonicProject')
             for repo in repos:
+                build_docs = g.app.config.getjson('github', 'docs')
                 name = repo['name']
+                if name not in build_docs:
+                    continue;
                 found.append(name)
                 description = repo['description']
                 if name not in projects:
