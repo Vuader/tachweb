@@ -1,6 +1,6 @@
 
-Contribute
-==========
+Contribute to Tachyonic Project
+===============================
 Thanks for your interest in the project! We welcome pull requests from developers of all skill levels. To get started, simply fork the master branch on GitHub to your personal account and then clone the fork into your development environment.
 
 All code is strictly PEP standard compliant, and if new code is added where standard is defined it should be defined using comments.
@@ -10,6 +10,10 @@ Tachyonic is developed by a growing community of users and contributors just lik
 Please don’t hesitate to reach out if you have any questions, or just need a little help getting started. 
 
 Our GitHub project is located at: https://github.com/TachyonicProject
+
+Develop Modules for Tachyonic Project
+=====================================
+To get started, refer to the `Getting Started with your first Tachyonic Project </sphinx/tutorials/latest/getting_started.html>`_ tutorial.
 
 Community
 =========
