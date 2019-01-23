@@ -33,6 +33,8 @@ g.nav_menu.add('/Documentation/Kiloquad',
                href='/sphinx/kiloquad/latest/index.html')
 g.nav_menu.add('/Documentation/Photonic',
                href='/sphinx/photonic/latest/index.html')
+g.nav_menu.add('/Documentation/TRadius',
+               href='/sphinx/tradius/latest/index.html')
 g.nav_menu.add('/Documentation/pyipcalc', href='/rst/pyipcalc')
 g.nav_menu.add('/Documentation/Blueprints',
                href='/sphinx/blueprints/latest/index.html')
